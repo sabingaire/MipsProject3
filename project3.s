@@ -82,3 +82,12 @@
                 addup:
                     addi $t9, $t9, 1
                     j space_front
+
+                    space_back:
+                        beq $t9, $t8, end_deletion
+                        add $t6, $t7, $t8
+                        addi $t6, $t6, -1
+                        lb $t5, ($t6)
+                        beq $t5, 32, adddown
+                        beq $t5, 9, adddown
+                        j end_deletion
