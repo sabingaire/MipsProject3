@@ -41,9 +41,14 @@
         	#loading arguments to make a subprogram_2 call
             la $a0, ($s1)
             la $a1, ($s2)
-            
+
             #Calling subprogram to call other function
             jal subprogram_2
 
             #calling subprogram3 using jump-and-link
             jal subprogram_3
+
+            beq $t2, 0, end_wl
+            beq $t2, 10, end_wl
+
+            addi $s2, $s2, 1 	# $s2 += 1
