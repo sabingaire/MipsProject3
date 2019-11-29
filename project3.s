@@ -20,4 +20,12 @@
            la $s0, max_input
            li $s1, 0 			#start pointer
            li $s2, 0			#end pointer
-           
+
+           word_list:
+               la $s1, ($s2)
+
+           substring:
+               add $t1, $s0, $s2 	#iterator
+               lb $t2, 0($t1) 		#loading the current character
+
+            
