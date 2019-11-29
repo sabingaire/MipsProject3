@@ -52,3 +52,13 @@
             beq $t2, 10, end_wl
 
             addi $s2, $s2, 1 	# $s2 += 1
+
+            #formatting the print values with comma
+            li $v0, 11
+            li $a0, 44
+            syscall
+            j word_list
+        end_wl:
+        	#This following set of lines is to end the program
+            li $v0, 10
+            syscall
