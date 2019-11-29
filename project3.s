@@ -9,3 +9,9 @@
     li $v0, 4
     la $a0, start1
     syscall
+
+    #Taking input from the user
+          li $v0, 8
+          la $a0, max_input
+          li $a1, 1001
+          syscall
