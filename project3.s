@@ -119,3 +119,8 @@
               addi $s6, $s6, 1
               addi $t9, $t9, 1
               j convert
+
+          end_convert:
+              bgt $s6, 4, large_num	#if length of a valid string is greater than 8, then it's TOO large to deal with
+              li $v0, 1
+              j end_string
