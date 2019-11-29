@@ -69,3 +69,16 @@
 
                 addi $t8, $a1, 0 #storing the end address
                 la $t7, max_input  #loading the first address of the user input
+
+
+                space_front:
+                    beq $t9, $t8, end_deletion  #exiting the loop
+                    add $t6, $t7, $t9
+                    lb $t5, ($t6)
+                    #keep looping if there is still space
+                    beq $t5, 32, addup
+                    beq $t5, 9, addup
+                    j space_back #clearing the spaces from the end if the current char is not a space.
+                addup:
+                    addi $t9, $t9, 1
+                    j space_front
