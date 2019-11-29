@@ -1,4 +1,4 @@
-//Created new file
+#Created new file
 .data
     max_input: .space 10000
     start1: .asciiz "Enter the string: "
