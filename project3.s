@@ -71,23 +71,32 @@
                 la $t7, max_input  #loading the first address of the user input
 
 
-                space_front:
-                    beq $t9, $t8, end_deletion  #exiting the loop
-                    add $t6, $t7, $t9
-                    lb $t5, ($t6)
-                    #keep looping if there is still space
-                    beq $t5, 32, addup
-                    beq $t5, 9, addup
-                    j space_back #clearing the spaces from the end if the current char is not a space.
-                addup:
-                    addi $t9, $t9, 1
-                    j space_front
+            space_front:
+                beq $t9, $t8, end_deletion  #exiting the loop
+                add $t6, $t7, $t9
+                lb $t5, ($t6)
+                #keep looping if there is still space
+                beq $t5, 32, addup
+                beq $t5, 9, addup
+                j space_back #clearing the spaces from the end if the current char is not a space.
+            addup:
+                addi $t9, $t9, 1
+                j space_front
 
-                    space_back:
-                        beq $t9, $t8, end_deletion
-                        add $t6, $t7, $t8
-                        addi $t6, $t6, -1
-                        lb $t5, ($t6)
-                        beq $t5, 32, adddown
-                        beq $t5, 9, adddown
-                        j end_deletion
+            space_back:
+                beq $t9, $t8, end_deletion
+                add $t6, $t7, $t8
+                addi $t6, $t6, -1
+                lb $t5, ($t6)
+                beq $t5, 32, adddown
+                beq $t5, 9, adddown
+                j end_deletion
+
+          adddown:
+                  addi $t8, $t8, -1
+                  j space_back
+
+          end_deletion:
+              beq $t9, $t8, not_a_number # if there is no character in a string, it's a NAN
+              li $t4, 0 				   # first decimal value
+              li $s6, 0 				   #length of the string
