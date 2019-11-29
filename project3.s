@@ -15,3 +15,9 @@
           la $a0, max_input
           li $a1, 1001
           syscall
+
+          #Now loading the register with the input of the user
+           la $s0, max_input
+           li $s1, 0 			#start pointer
+           li $s2, 0			#end pointer
+           
