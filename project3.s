@@ -172,3 +172,14 @@
 	   		addi $sp, $sp, 4
 	   		lw $t7, ($sp)
 	   		beq $t8, 0, not_okay #if $t8 equals 0, the string is not valid
+
+      foo:
+   			mfhi $a0
+   			syscall
+   			j exit
+        
+   		not_okay:
+   		#block of code for invalid string
+   			li $v0, 4
+   			la $a0, ($t7)
+   			syscall
