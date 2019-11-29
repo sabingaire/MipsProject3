@@ -124,3 +124,13 @@
               bgt $s6, 4, large_num	#if length of a valid string is greater than 8, then it's TOO large to deal with
               li $v0, 1
               j end_string
+
+        large_num:
+        #Throw a message to tell about a large number situation
+            li $v0, 0
+            la $t4, large_than_4
+            j end_string
+        not_a_number:
+        #throwing a message for invalid character
+            li $v0, 0
+            la $t4, not_valid
