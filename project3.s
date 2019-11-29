@@ -28,4 +28,8 @@
                add $t1, $s0, $s2 	#iterator
                lb $t2, 0($t1) 		#loading the current character
 
+            #Now checking for the different values where substring stops
+            beq $t2, 0, end_of_substring  #Checking null value
+            beq $t2, 10, end_of_substring   #Checking for space
+            beq $t2, 44, end_of_substring   #Checking for command
             
