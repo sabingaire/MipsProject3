@@ -32,4 +32,12 @@
             beq $t2, 0, end_of_substring  #Checking null value
             beq $t2, 10, end_of_substring   #Checking for space
             beq $t2, 44, end_of_substring   #Checking for command
-            
+
+            #Now increasing the counter
+            add $s2, $s2, 1
+            j substring
+
+        end_of_substring:
+        	#loading arguments to make a subprogram_2 call
+            la $a0, ($s1)
+            la $a1, ($s2)
