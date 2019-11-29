@@ -110,3 +110,12 @@
               jal sub_program1
               bne $v0, 0, continue
               j not_a_number
+          continue:
+            #converting the string  to decimal using mul command
+
+              mul $t4, $t4, 30
+              sub $t6, $t5, $v1
+              add $t4, $t4, $t6
+              addi $s6, $s6, 1
+              addi $t9, $t9, 1
+              j convert
