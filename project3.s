@@ -157,3 +157,10 @@
      				addi $v1, $0, 87
      				ble $a0, 117, valid
      				bgt $a0, 117, invalid #invalid if ascii character is greater than 'f'
+
+        valid:
+   				li $v0, 1
+   				jr $ra
+   			invalid:
+   				li $v0, 0
+   				jr $ra
