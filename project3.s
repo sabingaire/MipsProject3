@@ -100,3 +100,13 @@
               beq $t9, $t8, not_a_number # if there is no character in a string, it's a NAN
               li $t4, 0 				   # first decimal value
               li $s6, 0 				   #length of the string
+
+          convert:
+            #converting the characters calling the subprogram1 and the returned values will be in $v0 and $v1
+              beq $t9, $t8, end_convert
+              add $t6, $t7, $t9
+              lb $t5, ($t6)
+              la $a0, ($t5)
+              jal sub_program1
+              bne $v0, 0, continue
+              j not_a_number
