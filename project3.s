@@ -1,3 +1,9 @@
+#Sabin Gaire
+#@02859054
+
+#My I.D number is 02859054. So 02859054%11 =0 will will lead to 26 base numbers
+#The last valid digit is 'p' and "P " will have value 25 respectively.
+
 .data
     max_input: .space 10000
     start1: .asciiz "Enter the string: "
@@ -72,16 +78,16 @@
             addi $t8, $a1, 0 #storing the end address
             la $t7, max_input  #loading the first address of the user input
 
-            #In the following space_front and space_back, I am trying to remove the spaces from the front and the back of the string
+
             space_front:
-                beq $t9, $t8, end_deletion  #exiting the loop
+                beq $t9, $t8, end_deletion  #This will exit the loop
                 add $t6, $t7, $t9
                 lb $t5, ($t6)
-                #keep looping if there is still space
-                beq $t5, 32, addup
-                beq $t5, 9, addup
-                j space_back #clearing the spaces from the end if the current char is not a space.
-            addup:
+                #checks for loop continuation
+                beq $t5, 32, add_for_loop
+                beq $t5, 9, add_for_loop
+                j space_back #Checking the space at back
+            add_for_loop:
                 addi $t9, $t9, 1
                 j space_front
 
@@ -98,12 +104,13 @@
                 j space_back
 
             end_deletion:
-                beq $t9, $t8, not_a_number # if there is no character in a string, it's a NAN
-                li $t4, 0 				   # first decimal value
-                li $s6, 0 				   #length of the string
+                beq $t9, $t8, not_a_number #When the string is empty , then print NaN
+                li $t4, 0
+                li $s6, 0 				  #checks length of the string
 
             convert:
-            	#converting the characters calling the subprogram1 and the returned values will be in $v0 and $v1
+            #here using the subprogram, converting the characters using subprogram1 and returned in $v0 and $v1
+
                 beq $t9, $t8, end_convert
                 add $t6, $t7, $t9
                 lb $t5, ($t6)
@@ -113,22 +120,26 @@
                 j not_a_number
             continue:
             	#converting the string  to decimal using mul command
+              #Multiplying by 26 as I have the base 26
 
-                mul $t4, $t4, 30
+                mul $t4, $t4, 26
                 sub $t6, $t5, $v1
                 add $t4, $t4, $t6
                 addi $s6, $s6, 1
                 addi $t9, $t9, 1
                 j convert
+
             end_convert:
-                bgt $s6, 4, large_num	#if length of a valid string is greater than 8, then it's TOO large to deal with
+                bgt $s6, 4, large_num	#if length of a valid string is greater than 4, then it's TOO large to deal with
                 li $v0, 1
                 j end_string
+
             large_num:
-            #Throw a message to tell about a large number situation
+            #Printing NaN for string larger than 4 characters
                 li $v0, 0
                 la $t4, large_than_4
                 j end_string
+
             not_a_number:
             #throwing a message for invalid character
                 li $v0, 0
@@ -144,16 +155,17 @@
    		sub_program1:
    				blt $a0, 48, invalid #invaild if ascii value is less than 48, ascii value of 0 is 48
    				addi $v1, $0, 48 	#storing the ascii value to $v1
-   				blt $a0, 58, valid 	#making sure the character is less than or equal to "9"
-   				#With this block of code, basically I am trying to filter out the valid character for the conversion
+   				blt $a0, 58, valid 	#Value 0-9 is valid
+   				#this will check the valid characters
    				blt $a0, 65, invalid #invalid if the character is less than "A" in the ascii table
    				addi $v1, $0, 55
-   				ble $a0, 84, valid
+   				ble $a0, 80, valid #The last valid character is P
    				blt $a0, 97, invalid
    				addi $v1, $0, 87
-   				ble $a0, 117, valid
-   				bgt $a0, 117, invalid #invalid if ascii character is greater than 'f'
+   				ble $a0, 112, valid
+   				bgt $a0, 112, invalid #invalid if ascii character is greater than 'p'
 
+          #loading the number for valid and invalid
    			valid:
    				li $v0, 1
    				jr $ra
@@ -173,17 +185,19 @@
    			divu $t7, $t6
    			li $v0, 1
    			mflo $a0
-   			beq $a0, 0, foo #not ready to print
+   			beq $a0, 0, overflow_checker #not ready to print
    			syscall
-   		foo:
+
+   		overflow_checker:
    			mfhi $a0
    			syscall
    			j exit
+        
    		not_okay:
    		#block of code for invalid string
    			li $v0, 4
    			la $a0, ($t7)
    			syscall
    		exit:
-   		#Returning back to the main function
+   		##this will return back to the jump
    			jr $ra
