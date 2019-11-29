@@ -177,9 +177,13 @@
    			mfhi $a0
    			syscall
    			j exit
-        
+
    		not_okay:
    		#block of code for invalid string
    			li $v0, 4
    			la $a0, ($t7)
    			syscall
+
+      exit:
+     		#Returning back to the main function
+     			jr $ra
