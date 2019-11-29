@@ -101,6 +101,19 @@
                 beq $t9, $t8, not_a_number # if there is no character in a string, it's a NAN
                 li $t4, 0 				   # first decimal value
                 li $s6, 0 				   #length of the string
+            sub_program1:
+         				blt $a0, 48, invalid #invaild if ascii value is less than 48, ascii value of 0 is 48
+         				addi $v1, $0, 48 	#storing the ascii value to $v1
+         				blt $a0, 58, valid 	#making sure the character is less than or equal to "9"
+         				#With this block of code, basically I am trying to filter out the valid character for the conversion
+         				blt $a0, 65, invalid #invalid if the character is less than "A" in the ascii table
+         				addi $v1, $0, 55
+         				ble $a0, 84, valid
+         				blt $a0, 97, invalid
+         				addi $v1, $0, 87
+         				ble $a0, 117, valid
+         				bgt $a0, 117, invalid #invalid if ascii character is greater than 'f'
+
 
             convert:
             	#converting the characters calling the subprogram1 and the returned values will be in $v0 and $v1
@@ -141,18 +154,6 @@
                 sw $v0, ($sp)
                 la $ra, ($s7)
                 jr $ra
-   		sub_program1:
-   				blt $a0, 48, invalid #invaild if ascii value is less than 48, ascii value of 0 is 48
-   				addi $v1, $0, 48 	#storing the ascii value to $v1
-   				blt $a0, 58, valid 	#making sure the character is less than or equal to "9"
-   				#With this block of code, basically I am trying to filter out the valid character for the conversion
-   				blt $a0, 65, invalid #invalid if the character is less than "A" in the ascii table
-   				addi $v1, $0, 55
-   				ble $a0, 84, valid
-   				blt $a0, 97, invalid
-   				addi $v1, $0, 87
-   				ble $a0, 117, valid
-   				bgt $a0, 117, invalid #invalid if ascii character is greater than 'f'
 
    			valid:
    				li $v0, 1
